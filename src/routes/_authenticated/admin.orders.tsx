@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
@@ -47,8 +47,8 @@ function AdminOrders() {
           </thead>
           <tbody className="divide-y divide-border">
             {list.map((o) => (
-              <>
-                <tr key={o.id} className="cursor-pointer hover:bg-paper" onClick={() => setOpen(open === o.id ? null : o.id)}>
+              <Fragment key={o.id}>
+                <tr className="cursor-pointer hover:bg-paper" onClick={() => setOpen(open === o.id ? null : o.id)}>
                   <td className="py-3 font-display text-base">{o.order_number}</td>
                   <td>{formatDate(o.created_at, lang)}</td>
                   <td>{o.contact_name}<span className="block text-xs text-muted-foreground" dir="ltr">{o.contact_phone}</span></td>
@@ -68,7 +68,7 @@ function AdminOrders() {
                 {open === o.id ? (
                   <tr key={o.id + "-d"}><td colSpan={6} className="bg-paper p-6"><OrderView id={o.id} /></td></tr>
                 ) : null}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>
