@@ -95,7 +95,7 @@ function AdminProducts() {
 }
 
 function ProductForm({ product, categories, onDone }: {
-  product?: { id: string; slug: string; name_ar: string; name_en: string; description_ar: string; description_en: string; price: number; compare_at_price: number | null; stock: number; images: string[]; category_id: string | null; featured: boolean; bestseller: boolean; active: boolean; allow_engraving: boolean; engraving_price: number; product_variants: { id: string; name_ar: string; name_en: string; price_delta: number; stock: number }[] };
+  product?: undefined | { id: string; slug: string; name_ar: string; name_en: string; description_ar: string; description_en: string; price: number; compare_at_price: number | null; stock: number; images: string[]; category_id: string | null; featured: boolean; bestseller: boolean; active: boolean; allow_engraving: boolean; engraving_price: number; product_variants: { id: string; name_ar: string; name_en: string; price_delta: number; stock: number }[] };
   categories: { id: string; name_ar: string; name_en: string }[];
   onDone: () => void;
 }) {
@@ -122,7 +122,7 @@ function ProductForm({ product, categories, onDone }: {
     const res = product
       ? await supabase.from("products").update(row).eq("id", product.id).select("id").single()
       : await supabase.from("products").insert(row).select("id").single();
-    if (res.error) { setBusy(false); return toast.error(res.error.message); }
+    if (res.error) { setBusy(false); toast.error(res.error.message); return; }
     const pid = res.data.id;
     const keep = variants.filter((v) => v.id).map((v) => v.id!);
     const removed = (product?.product_variants ?? []).filter((v) => !keep.includes(v.id)).map((v) => v.id);
@@ -130,7 +130,7 @@ function ProductForm({ product, categories, onDone }: {
     for (const [i, v] of variants.entries()) {
       const vr = { product_id: pid, name_ar: v.name_ar, name_en: v.name_en, price_delta: v.price_delta, stock: v.stock, sort: i };
       const r = v.id ? await supabase.from("product_variants").update(vr).eq("id", v.id) : await supabase.from("product_variants").insert(vr);
-      if (r.error) { setBusy(false); return toast.error(r.error.message); }
+      if (r.error) { setBusy(false); toast.error(r.error.message); return; }
     }
     setBusy(false);
     onDone();

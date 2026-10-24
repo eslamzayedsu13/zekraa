@@ -33,7 +33,7 @@ function AdminLayout() {
       <p className="eyebrow">{pick("لوحة الإدارة", "Admin")}</p>
       <nav className="mt-4 flex gap-6 overflow-x-auto border-b border-border pb-3 text-sm">
         {links.map((l) => (
-          <Link key={l.to} to={l.to} activeOptions={{ exact: l.exact }} className="link-draw whitespace-nowrap" activeProps={{ "aria-current": "page" }}>
+          <Link key={l.to} to={l.to} activeOptions={{ exact: !!l.exact }} className="link-draw whitespace-nowrap" activeProps={{ "aria-current": "page" }}>
             {l.label}
           </Link>
         ))}
