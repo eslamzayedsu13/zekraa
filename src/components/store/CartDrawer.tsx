@@ -79,7 +79,7 @@ export function CartDrawer() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetContent side={dir === "rtl" ? "left" : "right"} className="flex w-full flex-col bg-background p-0 sm:max-w-md" dir={dir}>
-        <SheetHeader className="border-b border-border px-6 py-5 text-start">
+        <SheetHeader className="border-b border-border px-6 py-5 text-start pe-14">
           <SheetTitle className="font-display text-2xl font-normal">{t("cart_title")}</SheetTitle>
         </SheetHeader>
         {items.length === 0 ? (
